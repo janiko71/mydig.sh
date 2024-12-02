@@ -10,15 +10,19 @@ fi
 DOMAIN=$1
 
 # Serveur DNS passé en second argument (optionnel)
-DNS_SERVER=${2:-}
+DNS_SERVER=$2
 
 # Liste des types d'enregistrements DNS à interroger
 RECORD_TYPES=("A" "AAAA" "MX" "TXT" "NS" "CNAME" "SOA" "PTR" "SRV")
 
 # Boucle sur chaque type d'enregistrement
 for record in "${RECORD_TYPES[@]}"; do
-    # Récupère les résultats pour le type actuel
-    results=$(dig +noall +answer "$DOMAIN" "$record" "$DNS_SERVER")
+    # Construire la commande dig avec ou sans DNS_SERVER
+    if [ -n "$DNS_SERVER" ]; then
+        results=$(dig +noall +answer "$DOMAIN" "$record" "$DNS_SERVER")
+    else
+        results=$(dig +noall +answer "$DOMAIN" "$record")
+    fi
 
     # Si des résultats existent, les afficher avec un préfixe aligné
     if [ -n "$results" ]; then
