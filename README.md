@@ -4,7 +4,7 @@ A straightforward script for displaying all DNS records
 Don't forget the `chmod +x mydig.sh`...
 
 ### Usage
-`mydig.sh domain_name`
+`./mydig.sh <domain> [@dns_server]`
 
 ### Output example 
 ```
